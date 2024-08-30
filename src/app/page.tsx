@@ -1,90 +1,64 @@
-'use client';
+"use client";
 
-import { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { ParallaxProvider } from 'react-scroll-parallax';
+import { useState, useEffect } from 'react';
 import DynamicLandingPage from '../components/DynamicLandingPage';
 import AboutSection from '../components/AboutSection';
 import ProjectCard from '../components/ProjectCard';
 import InteractiveSkillsChart from '../components/InteractiveSkillsChart';
 import VisionSection from '../components/VisionSection';
 import ContactSection from '../components/ContactSection';
+import Navigation from '../components/Navigation';
+import EnhancedInteractiveBackground from '../components/EnhancedInteractiveBackground';
+import { useFullpageScroll } from '../hooks/useFullpageScroll';
 
-const projects = [
-  {
-    title: 'Univise',
-    shortDescription: 'AI-powered academic advising',
-    longDescription: 'Univise is an innovative platform that leverages AI to provide personalized academic advice to students.',
-    keyFeatures: ['Personalized course recommendations', 'Degree progress tracking', 'Career path insights'],
-    technologies: ['Machine Learning', 'React', 'Node.js', 'MongoDB'],
-    image: '/univise-placeholder.jpg'
-  },
-  {
-    title: 'Cylerity',
-    shortDescription: 'ML for healthcare receivables',
-    longDescription: 'Cylerity utilizes machine learning to optimize and accelerate accounts receivables processes for healthcare providers.',
-    keyFeatures: ['Automated claim processing', 'Predictive analytics for payment', 'Real-time financial insights'],
-    technologies: ['Python', 'TensorFlow', 'SQL', 'Tableau'],
-    image: '/cylerity-placeholder.jpg'
-  },
-];
+const sections = ['home', 'about', 'projects', 'skills', 'vision', 'contact'];
 
 export default function Home() {
-  const appRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: appRef });
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const [currentSection, setCurrentSection] = useState('home');
+  const { currentSection, scrollToSection } = useFullpageScroll(sections.length);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const sections = ['home', 'about', 'projects', 'skills', 'vision', 'contact'];
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
-        if (section && scrollPosition >= section.offsetTop - windowHeight / 2) {
-          setCurrentSection(sections[i]);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    setMounted(true);
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <ParallaxProvider>
-      <div ref={appRef} className="bg-gray-900 text-white">
-        <motion.div className="fixed top-0 left-0 right-0 h-1 bg-mclaren-orange z-50" style={{ scaleX }} />
-
-        <DynamicLandingPage currentSection={currentSection} />
-
-        <AboutSection />
-
-        <section id="projects" className="min-h-screen py-16">
-          <div className="container mx-auto">
-            <h2 className="text-4xl font-bold mb-8 text-center">Projects</h2>
+    <main className="relative w-screen h-screen overflow-hidden">
+      <EnhancedInteractiveBackground currentSection={currentSection} />
+      <Navigation currentSection={currentSection} scrollToSection={scrollToSection} />
+      <div
+        className="absolute top-0 left-0 w-full transition-transform duration-500 ease-in-out"
+        style={{
+          height: `${100 * sections.length}vh`,
+          transform: `translateY(${-currentSection * 100}vh)`
+        }}
+      >
+        <section id="home" className="h-screen">
+          <DynamicLandingPage currentSection={sections[currentSection]} scrollToSection={scrollToSection} />
+        </section>
+        <section id="about" className="h-screen">
+          <AboutSection />
+        </section>
+        <section id="projects" className="h-screen flex items-center justify-center">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-8 text-center text-white">Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {projects.map(project => (
-                <ProjectCard key={project.title} project={project} />
-              ))}
+              <ProjectCard title="Univise" description="AI-powered university recommendation system" />
+              <ProjectCard title="Cylerity" description="Innovative cycling analytics platform" />
             </div>
           </div>
         </section>
-
-        <InteractiveSkillsChart />
-
-        <VisionSection />
-
-        <ContactSection />
+        <section id="skills" className="h-screen">
+          <InteractiveSkillsChart />
+        </section>
+        <section id="vision" className="h-screen">
+          <VisionSection />
+        </section>
+        <section id="contact" className="h-screen">
+          <ContactSection />
+        </section>
       </div>
-    </ParallaxProvider>
+    </main>
   );
 }

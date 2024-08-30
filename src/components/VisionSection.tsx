@@ -1,65 +1,36 @@
-'use client';
-
 import React from 'react';
 import { motion } from 'framer-motion';
-import F1Background from './F1Background';
-
-const visionPoints = [
-    { title: 'Healthcare Revolution', description: 'AI-powered diagnostics and personalized treatment plans' },
-    { title: 'Education Transformation', description: 'Adaptive learning systems tailored to individual needs' },
-    { title: 'Sustainable Future', description: 'AI optimizing resource usage and environmental protection' },
-    { title: 'Financial Inclusion', description: 'AI-driven solutions for accessible financial services' },
-];
 
 const VisionSection: React.FC = () => {
     return (
-        <F1Background>
-            <div className="container mx-auto px-4 py-16 bg-gray-800">
-                <motion.h2
-                    className="text-4xl font-bold mb-8 text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    My Vision for AI
-                </motion.h2>
-                <motion.p
-                    className="text-lg mb-12 max-w-3xl mx-auto text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                    I believe AI has the potential to revolutionize every industry, creating a more efficient, sustainable, and equitable world. Here's how I see AI shaping our future:
-                </motion.p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {visionPoints.map((point, index) => (
-                        <motion.div
-                            key={point.title}
-                            className="bg-gray-700 p-6 rounded-lg shadow-lg"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                            <h3 className="text-xl font-bold mb-2 text-mclaren-orange">{point.title}</h3>
-                            <p>{point.description}</p>
-                        </motion.div>
-                    ))}
-                </div>
-
-                <motion.div
-                    className="mt-12 text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                    <p className="text-lg font-bold mb-4">Together, we can harness the power of AI to create a brighter future for all.</p>
-                    <button className="bg-mclaren-orange text-white px-6 py-3 rounded-full hover:bg-opacity-80 transition-colors">
-                        Let's Connect
-                    </button>
-                </motion.div>
-            </div>
-        </F1Background>
+        <div className="h-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+            <motion.div
+                className="max-w-3xl mx-auto p-8 bg-black bg-opacity-50 rounded-lg shadow-lg"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                <h2 className="text-4xl font-bold mb-6 text-mclaren-orange">My AI Vision</h2>
+                <p className="text-lg mb-4">
+                    I envision a future where AI seamlessly integrates into our daily lives, enhancing human capabilities
+                    rather than replacing them. My goal is to develop AI systems that are not only powerful and efficient
+                    but also ethical and transparent.
+                </p>
+                <p className="text-lg mb-4">
+                    I'm particularly excited about the potential of AI in:
+                </p>
+                <ul className="list-disc list-inside mb-4 space-y-2">
+                    <li>Personalized healthcare and early disease detection</li>
+                    <li>Sustainable energy management and climate change mitigation</li>
+                    <li>Enhanced education through adaptive learning systems</li>
+                    <li>Improved decision-making in complex scenarios</li>
+                </ul>
+                <p className="text-lg">
+                    By pushing the boundaries of what's possible with AI, I believe we can create a more efficient,
+                    sustainable, and equitable world for everyone.
+                </p>
+            </motion.div>
+        </div>
     );
 };
 
