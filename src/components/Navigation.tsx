@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 interface NavigationProps {
     currentSection: number;
     scrollToSection: (index: number) => void;
+    openModal: () => void
 }
 
 const Navigation: React.FC<NavigationProps> = ({ currentSection, scrollToSection }) => {

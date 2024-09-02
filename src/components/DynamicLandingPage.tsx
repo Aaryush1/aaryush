@@ -1,32 +1,21 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
-import ContactPreviewModal from './ContactPreviewModal';
 
 interface DynamicLandingPageProps {
     currentSection: string;
     scrollToSection: (index: number) => void;
+    openModal: () => void; // New prop to open the modal
 }
 
-const DynamicLandingPage: React.FC<DynamicLandingPageProps> = ({ currentSection, scrollToSection }) => {
+const DynamicLandingPage: React.FC<DynamicLandingPageProps> = ({ currentSection, scrollToSection, openModal }) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const navItems = ['home', 'about', 'projects', 'skills', 'vision', 'contact'];
 
     const handleNavigation = (index: number) => {
         scrollToSection(index);
         setMenuOpen(false);
-    };
-
-    const openModal = () => {
-        setIsModalOpen(true);
-        console.log("Modal opened");
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        console.log("Modal closed");
     };
 
     return (
@@ -117,7 +106,6 @@ const DynamicLandingPage: React.FC<DynamicLandingPageProps> = ({ currentSection,
                 </AnimatePresence>
             </div>
 
-            {/* Home page content */}
             <div className="h-screen flex flex-col items-center justify-center">
                 <h1 className="text-5xl font-bold mb-6">Welcome to My AI & Tech Portfolio</h1>
                 <p className="text-xl mb-8">Innovating at the intersection of AI and technology</p>
@@ -131,8 +119,6 @@ const DynamicLandingPage: React.FC<DynamicLandingPageProps> = ({ currentSection,
                     Download Contact Card
                 </motion.button>
             </div>
-
-            <ContactPreviewModal isOpen={isModalOpen} onClose={closeModal} />
         </>
     );
 };
